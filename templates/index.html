@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CI/CD Server</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0d1117; color: #c9d1d9; min-height: 100vh; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        h1 { color: #58a6ff; margin-bottom: 20px; }
+        h2 { color: #8b949e; font-size: 14px; text-transform: uppercase; margin-bottom: 10px; }
+        
+        /* Auth Section */
+        #auth-section { background: #161b22; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+        #auth-section.hidden, .hidden { display: none; }
+        .auth-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .auth-tabs button { background: #21262d; border: 1px solid #30363d; color: #c9d1d9; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
+        .auth-tabs button.active { background: #238636; border-color: #238636; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; margin-bottom: 5px; color: #8b949e; font-size: 14px; }
+        .form-group input { width: 100%; padding: 10px; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; color: #c9d1d9; }
+        .btn { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; }
+        .btn-primary { background: #238636; color: white; }
+        .btn-danger { background: #da3633; color: white; }
+        .btn-secondary { background: #21262d; color: #c9d1d9; border: 1px solid #30363d; }
+        .btn:hover { opacity: 0.9; }
+        
+        /* Dashboard */
+        #dashboard { display: none; }
+        #dashboard.visible { display: block; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .user-info { display: flex; align-items: center; gap: 10px; }
+        .user-email { color: #8b949e; }
+        
+        /* Create Job */
+        .create-job { background: #161b22; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+        .create-job-form { display: flex; gap: 10px; }
+        .create-job-form input { flex: 1; padding: 10px; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; color: #c9d1d9; }
+        .create-job-form input::placeholder { color: #484f58; }
+        
+        /* Jobs List */
+        .jobs-list { background: #161b22; border-radius: 8px; overflow: hidden; }
+        .job-item { padding: 15px 20px; border-bottom: 1px solid #21262d; display: flex; justify-content: space-between; align-items: center; }
+        .job-item:last-child { border-bottom: none; }
+        .job-info { flex: 1; }
+        .job-repo { color: #58a6ff; font-weight: 500; word-break: break-all; }
+        .job-meta { color: #8b949e; font-size: 13px; margin-top: 4px; }
+        .job-status { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+        .status-pending { background: #1f2328; color: #8b949e; }
+        .status-running { background: #0c2d6b; color: #58a6ff; }
+        .status-success { background: #12261e; color: #3fb950; }
+        .status-failed { background: #2d1215; color: #f85149; }
+        .status-cancelled { background: #2d1215; color: #f0883e; }
+        .job-actions { display: flex; gap: 8px; margin-left: 15px; }
+        .job-actions button { padding: 6px 12px; font-size: 12px; }
+        
+        /* Logs Modal */
+        .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .modal-content { background: #161b22; border-radius: 8px; width: 90%; max-width: 800px; max-height: 80vh; display: flex; flex-direction: column; }
+        .modal-header { padding: 15px 20px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
+        .modal-body { padding: 20px; overflow-y: auto; flex: 1; }
+        .log-entry { font-family: monospace; font-size: 13px; padding: 4px 0; }
+        .log-info { color: #8b949e; }
+        .log-warn { color: #f0883e; }
+        .log-error { color: #f85149; }
+        
+        .alert { padding: 12px 16px; border-radius: 6px; margin-bottom: 15px; }
+        .alert-error { background: #2d1215; color: #f85149; }
+        .alert-success { background: #12261e; color: #3fb950; }
+        .empty-state { text-align: center; padding: 40px; color: #8b949e; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 CI/CD Server</h1>
+        
+        <!-- Auth Section -->
+        <div id="auth-section">
+            <div class="auth-tabs">
+                <button class="active" onclick="showTab('login')">Login</button>
+                <button onclick="showTab('register')">Register</button>
+            </div>
+            <div id="alert-auth"></div>
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="login-email" required placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="login-password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+            <form id="register-form" class="hidden" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="register-email" required placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="register-password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+        </div>
+        
+        <!-- Dashboard -->
+        <div id="dashboard">
+            <div class="header">
+                <div class="user-info">
+                    <span class="user-email" id="user-email"></span>
+                </div>
+                <button class="btn btn-secondary" onclick="logout()">Logout</button>
+            </div>
+            
+            <div class="create-job">
+                <h2>Create New Job</h2>
+                <form class="create-job-form" onsubmit="createJob(event)">
+                    <input type="text" id="repo-url" placeholder="https://github.com/user/repo" required>
+                    <input type="text" id="branch" placeholder="main" value="main" style="max-width: 120px;">
+                    <button type="submit" class="btn btn-primary">Run Job</button>
+                </form>
+            </div>
+            
+            <div class="jobs-list">
+                <div style="padding: 15px 20px; border-bottom: 1px solid #21262d; display: flex; justify-content: space-between; align-items: center;">
+                    <h2 style="margin: 0;">Jobs</h2>
+                    <button class="btn btn-secondary" onclick="loadJobs()" style="padding: 6px 12px; font-size: 12px;">Refresh</button>
+                </div>
+                <div id="jobs-container">
+                    <div class="empty-state">No jobs yet. Create one above!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Logs Modal -->
+    <div id="logs-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Job Logs</h3>
+                <button class="btn btn-secondary" onclick="closeLogsModal()">Close</button>
+            </div>
+            <div class="modal-body" id="logs-container"></div>
+        </div>
+    </div>
+
+    <script>
+        const API = '/api';
+        let token = localStorage.getItem('token');
+        let currentUser = null;
+        let logsInterval = null;
+
+        // Init
+        if (token) {
+            checkAuth();
+        }
+
+        async function api(endpoint, options = {}) {
+            const headers = { 'Content-Type': 'application/json' };
+            if (token) headers['Authorization'] = `Bearer ${token}`;
+            
+            const res = await fetch(`${API}${endpoint}`, { ...options, headers });
+            return res.json();
+        }
+
+        function showTab(tab) {
+            document.querySelectorAll('.auth-tabs button').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('login-form').classList.toggle('hidden', tab !== 'login');
+            document.getElementById('register-form').classList.toggle('hidden', tab !== 'register');
+        }
+
+        function showAlert(containerId, message, type) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            setTimeout(() => container.innerHTML = '', 3000);
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            const data = await api('/auth/login', {
+                method: 'POST',
+                body: JSON.stringify({ email, password })
+            });
+            
+            if (data.token) {
+                token = data.token;
+                localStorage.setItem('token', token);
+                checkAuth();
+            } else {
+                showAlert('alert-auth', data.error || 'Login failed', 'error');
+            }
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            
+            const data = await api('/auth/register', {
+                method: 'POST',
+                body: JSON.stringify({ email, password })
+            });
+            
+            if (data.token) {
+                token = data.token;
+                localStorage.setItem('token', token);
+                checkAuth();
+            } else {
+                showAlert('alert-auth', data.error || 'Registration failed', 'error');
+            }
+        }
+
+        async function checkAuth() {
+            const data = await api('/auth/me');
+            if (data.email) {
+                currentUser = data;
+                document.getElementById('user-email').textContent = data.email;
+                document.getElementById('auth-section').classList.add('hidden');
+                document.getElementById('dashboard').classList.add('visible');
+                loadJobs();
+            } else {
+                logout();
+            }
+        }
+
+        function logout() {
+            token = null;
+            localStorage.removeItem('token');
+            document.getElementById('auth-section').classList.remove('hidden');
+            document.getElementById('dashboard').classList.remove('visible');
+        }
+
+        async function loadJobs() {
+            const jobs = await api('/jobs');
+            const container = document.getElementById('jobs-container');
+            
+            if (!jobs.length) {
+                container.innerHTML = '<div class="empty-state">No jobs yet. Create one above!</div>';
+                return;
+            }
+            
+            container.innerHTML = jobs.map(job => `
+                <div class="job-item">
+                    <div class="job-info">
+                        <div class="job-repo">${job.repo_url}</div>
+                        <div class="job-meta">Branch: ${job.branch} • ${new Date(job.created_at).toLocaleString()}</div>
+                    </div>
+                    <span class="job-status status-${job.status}">${job.status}</span>
+                    <div class="job-actions">
+                        <button class="btn btn-secondary" onclick="viewLogs('${job.id}')">Logs</button>
+                        ${job.status === 'running' ? `<button class="btn btn-danger" onclick="cancelJob('${job.id}')">Cancel</button>` : ''}
+                        ${['failed', 'cancelled'].includes(job.status) ? `<button class="btn btn-primary" onclick="retryJob('${job.id}')">Retry</button>` : ''}
+                        <button class="btn btn-danger" onclick="deleteJob('${job.id}')">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function createJob(e) {
+            e.preventDefault();
+            const repo_url = document.getElementById('repo-url').value;
+            const branch = document.getElementById('branch').value || 'main';
+            
+            await api('/jobs', {
+                method: 'POST',
+                body: JSON.stringify({ repo_url, branch })
+            });
+            
+            document.getElementById('repo-url').value = '';
+            loadJobs();
+        }
+
+        async function viewLogs(jobId) {
+            document.getElementById('logs-modal').classList.remove('hidden');
+            loadLogs(jobId);
+            logsInterval = setInterval(() => loadLogs(jobId), 2000);
+        }
+
+        async function loadLogs(jobId) {
+            const logs = await api(`/jobs/${jobId}/logs`);
+            const container = document.getElementById('logs-container');
+            
+            if (!logs.length) {
+                container.innerHTML = '<div class="empty-state">No logs yet...</div>';
+                return;
+            }
+            
+            container.innerHTML = logs.map(log => 
+                `<div class="log-entry log-${log.level}">[${log.level.toUpperCase()}] ${log.message}</div>`
+            ).join('');
+            
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function closeLogsModal() {
+            document.getElementById('logs-modal').classList.add('hidden');
+            if (logsInterval) clearInterval(logsInterval);
+        }
+
+        async function cancelJob(jobId) {
+            await api(`/jobs/${jobId}/cancel`, { method: 'POST' });
+            loadJobs();
+        }
+
+        async function retryJob(jobId) {
+            await api(`/jobs/${jobId}/retry`, { method: 'POST' });
+            loadJobs();
+        }
+
+        async function deleteJob(jobId) {
+            if (confirm('Delete this job?')) {
+                await api(`/jobs/${jobId}`, { method: 'DELETE' });
+                loadJobs();
+            }
+        }
+
+        // Auto-refresh jobs every 5 seconds
+        setInterval(() => {
+            if (token && document.getElementById('dashboard').classList.contains('visible')) {
+                loadJobs();
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
