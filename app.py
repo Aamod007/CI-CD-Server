@@ -21,6 +21,5 @@ def health():
 
 if __name__ == '__main__':
     import os
-    # Exclude workspaces from file watcher
-    extra_files = []
-    app.run(host='0.0.0.0', port=PORT, debug=True, use_reloader=False)
+    port = int(os.environ.get('PORT', PORT))
+    app.run(host='0.0.0.0', port=port, debug=False, use_reloader=False)
