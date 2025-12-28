@@ -84,63 +84,65 @@ def create_dashboard(flask_app):
             html.Span("Real-time CI/CD Metrics", style={'color': THEME['text_dim'], 'fontSize': '13px', 'marginLeft': '16px'})
         ], style={'display': 'flex', 'alignItems': 'center'}),
         html.Div([
+            html.Button("🔄 Refresh", id='refresh-btn', n_clicks=0, style={
+                'background': THEME['accent'], 'color': '#fff', 'border': 'none', 'padding': '8px 16px',
+                'borderRadius': '6px', 'cursor': 'pointer', 'fontSize': '13px', 'fontWeight': '500', 'marginRight': '20px'
+            }),
             html.A("← Back to App", href="/", style={
                 'color': THEME['accent'], 'textDecoration': 'none', 'fontSize': '13px', 'marginRight': '20px', 'fontWeight': '500'
             }),
-            html.Span("●", className='pulse', style={'color': THEME['success'], 'marginRight': '6px', 'fontSize': '10px'}),
-            html.Span("Live", style={'fontSize': '13px', 'color': THEME['text_dim']})
         ], style={'display': 'flex', 'alignItems': 'center'})
     ], style={'display': 'flex', 'justifyContent': 'space-between', 'padding': '20px 32px', 
               'background': '#fff', 'borderBottom': f'1px solid {THEME["border"]}'}),
     
     # KPI Cards
-    html.Div(id='kpi-cards', style={'display': 'grid', 'gridTemplateColumns': 'repeat(6, 1fr)', 'gap': '16px', 'padding': '24px 32px'}),
+    html.Div(id='kpi-cards', style={'display': 'grid', 'gridTemplateColumns': 'repeat(6, 1fr)', 'gap': '16px', 'padding': '24px 32px', 'minHeight': '100px'}),
     
     # Row 1
     html.Div([
         html.Div([
             html.Div("Pipeline Throughput", style={'fontSize': '14px', 'fontWeight': '600', 'marginBottom': '16px', 'color': THEME['text']}),
-            dcc.Graph(id='throughput-chart', config={'displayModeBar': False})
-        ], className='card', style={'padding': '20px', 'flex': '2'}),
+            dcc.Graph(id='throughput-chart', config={'displayModeBar': False}, style={'height': '220px'})
+        ], className='card', style={'padding': '20px', 'flex': '2', 'minHeight': '280px'}),
         html.Div([
             html.Div("Status Distribution", style={'fontSize': '14px', 'fontWeight': '600', 'marginBottom': '16px', 'color': THEME['text']}),
-            dcc.Graph(id='status-pie', config={'displayModeBar': False})
-        ], className='card', style={'padding': '20px', 'flex': '1'}),
+            dcc.Graph(id='status-pie', config={'displayModeBar': False}, style={'height': '220px'})
+        ], className='card', style={'padding': '20px', 'flex': '1', 'minHeight': '280px'}),
     ], style={'display': 'flex', 'gap': '16px', 'padding': '0 32px 16px'}),
     
     # Row 2
     html.Div([
         html.Div([
             html.Div("Weekly Activity Heatmap", style={'fontSize': '14px', 'fontWeight': '600', 'marginBottom': '16px', 'color': THEME['text']}),
-            dcc.Graph(id='heatmap-chart', config={'displayModeBar': False})
-        ], className='card', style={'padding': '20px', 'flex': '1'}),
+            dcc.Graph(id='heatmap-chart', config={'displayModeBar': False}, style={'height': '200px'})
+        ], className='card', style={'padding': '20px', 'flex': '1', 'minHeight': '260px'}),
         html.Div([
             html.Div("Duration by Status", style={'fontSize': '14px', 'fontWeight': '600', 'marginBottom': '16px', 'color': THEME['text']}),
-            dcc.Graph(id='duration-chart', config={'displayModeBar': False})
-        ], className='card', style={'padding': '20px', 'flex': '1'}),
+            dcc.Graph(id='duration-chart', config={'displayModeBar': False}, style={'height': '200px'})
+        ], className='card', style={'padding': '20px', 'flex': '1', 'minHeight': '260px'}),
         html.Div([
             html.Div("Hourly Distribution", style={'fontSize': '14px', 'fontWeight': '600', 'marginBottom': '16px', 'color': THEME['text']}),
-            dcc.Graph(id='hourly-chart', config={'displayModeBar': False})
-        ], className='card', style={'padding': '20px', 'flex': '1'}),
+            dcc.Graph(id='hourly-chart', config={'displayModeBar': False}, style={'height': '200px'})
+        ], className='card', style={'padding': '20px', 'flex': '1', 'minHeight': '260px'}),
     ], style={'display': 'flex', 'gap': '16px', 'padding': '0 32px 16px'}),
     
     # Row 3
     html.Div([
         html.Div([
             html.Div("Repository Performance", style={'fontSize': '14px', 'fontWeight': '600', 'marginBottom': '16px', 'color': THEME['text']}),
-            dcc.Graph(id='repo-chart', config={'displayModeBar': False})
-        ], className='card', style={'padding': '20px', 'flex': '1'}),
+            dcc.Graph(id='repo-chart', config={'displayModeBar': False}, style={'height': '200px'})
+        ], className='card', style={'padding': '20px', 'flex': '1', 'minHeight': '260px'}),
         html.Div([
             html.Div("Success vs Failure Trend", style={'fontSize': '14px', 'fontWeight': '600', 'marginBottom': '16px', 'color': THEME['text']}),
-            dcc.Graph(id='trend-chart', config={'displayModeBar': False})
-        ], className='card', style={'padding': '20px', 'flex': '1'}),
+            dcc.Graph(id='trend-chart', config={'displayModeBar': False}, style={'height': '200px'})
+        ], className='card', style={'padding': '20px', 'flex': '1', 'minHeight': '260px'}),
     ], style={'display': 'flex', 'gap': '16px', 'padding': '0 32px 16px'}),
     
     # Row 4
     html.Div([
         html.Div([
             html.Div("Recent Pipelines", style={'fontSize': '14px', 'fontWeight': '600', 'marginBottom': '16px', 'color': THEME['text']}),
-            html.Div(id='jobs-table')
+            html.Div(id='jobs-table', style={'minHeight': '200px'})
         ], className='card', style={'padding': '20px', 'flex': '2'}),
         html.Div([
             html.Div([
@@ -151,7 +153,6 @@ def create_dashboard(flask_app):
         ], className='card', style={'padding': '20px', 'flex': '1'}),
     ], style={'display': 'flex', 'gap': '16px', 'padding': '0 32px 24px'}),
     
-    dcc.Interval(id='refresh', interval=3000, n_intervals=0)
     ], style={'minHeight': '100vh', 'background': THEME['bg']})
     
     # Register callbacks
@@ -166,7 +167,7 @@ def register_callbacks(app):
          Output('heatmap-chart', 'figure'), Output('duration-chart', 'figure'), Output('hourly-chart', 'figure'),
          Output('repo-chart', 'figure'), Output('trend-chart', 'figure'),
          Output('jobs-table', 'children'), Output('logs-feed', 'children')],
-        [Input('refresh', 'n_intervals')]
+        [Input('refresh-btn', 'n_clicks')]
     )
     def update_all(n):
         df = fetch_jobs()
@@ -212,7 +213,8 @@ def register_callbacks(app):
                                         line=dict(color=THEME['accent'], width=2), fillcolor='rgba(99,102,241,0.1)'))
         throughput.update_layout(paper_bgcolor='#fff', plot_bgcolor='#fff', height=220, margin=dict(l=40,r=20,t=10,b=40),
                                 xaxis=dict(showgrid=False, tickfont=dict(size=11, color=THEME['text_dim'])),
-                                yaxis=dict(showgrid=True, gridcolor='#f1f5f9', tickfont=dict(size=11, color=THEME['text_dim'])))
+                                yaxis=dict(showgrid=True, gridcolor='#f1f5f9', tickfont=dict(size=11, color=THEME['text_dim'])),
+                                uirevision='constant')
         
         # 2. Status Pie
         status_counts = df['status'].value_counts()
@@ -222,7 +224,8 @@ def register_callbacks(app):
                                       marker=dict(colors=[colors_map.get(s, THEME['text_dim']) for s in status_counts.index]),
                                       textinfo='percent', textfont=dict(size=12, color='#fff')))
         status_pie.update_layout(paper_bgcolor='#fff', height=220, margin=dict(l=20,r=20,t=10,b=10),
-                                legend=dict(orientation='h', y=-0.1, font=dict(size=11, color=THEME['text_dim'])))
+                                legend=dict(orientation='h', y=-0.1, font=dict(size=11, color=THEME['text_dim'])),
+                                uirevision='constant')
         
         # 3. Heatmap
         days_order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
