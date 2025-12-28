@@ -175,18 +175,23 @@ def register_callbacks(app):
         
         def empty_fig(h=200):
             fig = go.Figure()
-            fig.update_layout(paper_bgcolor='#fff', plot_bgcolor='#fff', height=h, margin=dict(l=0,r=0,t=0,b=0),
-                             xaxis=dict(visible=False), yaxis=dict(visible=False),
-                             annotations=[dict(text='No data', x=0.5, y=0.5, showarrow=False, font=dict(color=THEME['text_dim']))])
+            fig.add_annotation(text='No data available', x=0.5, y=0.5, xref='paper', yref='paper',
+                              showarrow=False, font=dict(size=14, color=THEME['text_dim']))
+            fig.update_layout(
+                paper_bgcolor='#fff', plot_bgcolor='#fff', height=h, 
+                margin=dict(l=20, r=20, t=20, b=20),
+                xaxis=dict(visible=False, showgrid=False),
+                yaxis=dict(visible=False, showgrid=False)
+            )
             return fig
         
         if df.empty:
             kpis = [kpi_card("Total Jobs", 0, THEME['accent']), kpi_card("Success Rate", "0%", THEME['success']),
                     kpi_card("Failed", 0, THEME['error']), kpi_card("Running", 0, THEME['info']),
                     kpi_card("Avg Duration", "0s", THEME['warning']), kpi_card("Users", len(users), THEME['accent2'])]
-            return kpis, empty_fig(), empty_fig(), empty_fig(), empty_fig(), empty_fig(), empty_fig(), empty_fig(), \
-                   html.P("No jobs yet", style={'color': THEME['text_dim'], 'textAlign': 'center', 'padding': '40px'}), \
-                   html.P("No logs", style={'color': THEME['text_dim'], 'textAlign': 'center', 'padding': '40px'})
+            return kpis, empty_fig(220), empty_fig(220), empty_fig(200), empty_fig(200), empty_fig(200), empty_fig(200), empty_fig(200), \
+                   html.P("No jobs yet - create a pipeline to see data here", style={'color': THEME['text_dim'], 'textAlign': 'center', 'padding': '40px'}), \
+                   html.P("No logs yet", style={'color': THEME['text_dim'], 'textAlign': 'center', 'padding': '40px'})
         
         # Stats
         total = len(df)
