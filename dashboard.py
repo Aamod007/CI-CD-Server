@@ -84,12 +84,8 @@ def create_dashboard(flask_app):
             html.Span("Real-time CI/CD Metrics", style={'color': THEME['text_dim'], 'fontSize': '13px', 'marginLeft': '16px'})
         ], style={'display': 'flex', 'alignItems': 'center'}),
         html.Div([
-            html.Button("🔄 Refresh", id='refresh-btn', n_clicks=0, style={
-                'background': THEME['accent'], 'color': '#fff', 'border': 'none', 'padding': '8px 16px',
-                'borderRadius': '6px', 'cursor': 'pointer', 'fontSize': '13px', 'fontWeight': '500', 'marginRight': '20px'
-            }),
             html.A("← Back to App", href="/", style={
-                'color': THEME['accent'], 'textDecoration': 'none', 'fontSize': '13px', 'marginRight': '20px', 'fontWeight': '500'
+                'color': THEME['accent'], 'textDecoration': 'none', 'fontSize': '13px', 'fontWeight': '500'
             }),
         ], style={'display': 'flex', 'alignItems': 'center'})
     ], style={'display': 'flex', 'justifyContent': 'space-between', 'padding': '20px 32px', 
@@ -153,7 +149,8 @@ def create_dashboard(flask_app):
         ], className='card', style={'padding': '20px', 'flex': '1'}),
     ], style={'display': 'flex', 'gap': '16px', 'padding': '0 32px 24px'}),
     
-    ], style={'minHeight': '100vh', 'background': THEME['bg']})
+    ], style={'minHeight': '100vh', 'background': THEME['bg']},
+    id='main-container')
     
     # Register callbacks
     register_callbacks(dash_app)
@@ -167,7 +164,7 @@ def register_callbacks(app):
          Output('heatmap-chart', 'figure'), Output('duration-chart', 'figure'), Output('hourly-chart', 'figure'),
          Output('repo-chart', 'figure'), Output('trend-chart', 'figure'),
          Output('jobs-table', 'children'), Output('logs-feed', 'children')],
-        [Input('refresh-btn', 'n_clicks')]
+        [Input('main-container', 'id')]
     )
     def update_all(n):
         df = fetch_jobs()
