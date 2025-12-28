@@ -243,8 +243,8 @@ def register_callbacks(app):
                     duration.add_trace(go.Box(y=subset['duration'], name=status.title(), 
                                              marker_color=colors_map.get(status), boxpoints=False))
             duration.update_layout(paper_bgcolor='#fff', plot_bgcolor='#fff', height=200, margin=dict(l=50,r=20,t=10,b=30),
-                                  showlegend=False, yaxis=dict(title='Seconds', gridcolor='#f1f5f9', 
-                                                              titlefont=dict(size=11, color=THEME['text_dim']),
+                                  showlegend=False, yaxis=dict(title=dict(text='Seconds', font=dict(size=11, color=THEME['text_dim'])), 
+                                                              gridcolor='#f1f5f9',
                                                               tickfont=dict(size=10, color=THEME['text_dim'])))
         else:
             duration = empty_fig()
