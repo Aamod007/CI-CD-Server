@@ -2,6 +2,8 @@
 
 A lightweight, self-hosted Continuous Integration/Continuous Deployment server built with Flask, JWT authentication, and Supabase. Execute automated pipelines for any Git repository with real-time log streaming.
 
+🌐 **Live Demo:** [https://ci-cd-server-0lka.onrender.com](https://ci-cd-server-0lka.onrender.com)
+
 ![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
 ![Flask](https://img.shields.io/badge/Flask-3.0-green.svg)
 ![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-orange.svg)
