@@ -3,9 +3,13 @@ from flask_cors import CORS
 from config import PORT
 from routes.auth_routes import auth_bp
 from routes.job_routes import jobs_bp
+from dashboard import create_dashboard
 
 app = Flask(__name__)
 CORS(app)
+
+# Integrate Dash dashboard into Flask app
+create_dashboard(app)
 
 # Register blueprints
 app.register_blueprint(auth_bp)
