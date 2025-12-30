@@ -452,7 +452,7 @@
         async function cancelJob(id) { await api(`/jobs/${id}/cancel`, { method: 'POST' }); loadJobs(); }
         async function retryJob(id) { await api(`/jobs/${id}/retry`, { method: 'POST' }); loadJobs(); }
         async function deleteJob(id) { if (confirm('Delete?')) { await api(`/jobs/${id}`, { method: 'DELETE' }); loadJobs(); } }
-        setInterval(() => { if (token && document.getElementById('dashboard').classList.contains('visible')) loadJobs(); }, 5000);
+        // No auto-refresh - use manual Refresh button instead
     </script>
 </body>
 </html>
