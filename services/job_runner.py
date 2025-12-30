@@ -48,6 +48,15 @@ def _run_job(job_id, repo_url, branch):
             # Auto-detect project type
             commands = _detect_project_commands(workspace_dir)
             _add_log(job_id, f'Auto-detected project type', 'info')
+            
+            # Create and save ci.json for future runs
+            try:
+                ci_config = {'commands': commands}
+                with open(ci_config_path, 'w', encoding='utf-8') as f:
+                    json.dump(ci_config, f, indent=2)
+                _add_log(job_id, 'Generated ci.json for this project', 'info')
+            except Exception as e:
+                _add_log(job_id, f'Could not save ci.json: {str(e)}', 'warn')
         
         if not commands:
             _add_log(job_id, 'No commands to run', 'warn')
