@@ -298,7 +298,7 @@
             <div class="user-bar">
                 <div style="display: flex; align-items: center; gap: 16px;">
                     <span class="user-email" id="user-email"></span>
-                    <a href="/dashboard/" target="_blank" class="dashboard-link">📊 Analytics</a>
+                    <a href="#" onclick="openDashboard()" class="dashboard-link">📊 Analytics</a>
                 </div>
                 <button class="btn btn-secondary btn-small" onclick="logout()">Sign Out</button>
             </div>
@@ -347,6 +347,14 @@
             if (token) headers['Authorization'] = `Bearer ${token}`;
             const res = await fetch(`${API}${endpoint}`, { ...options, headers });
             return res.json();
+        }
+
+        function openDashboard() {
+            if (token) {
+                window.open(`/dashboard/?token=${encodeURIComponent(token)}`, '_blank');
+            } else {
+                alert('Please login first');
+            }
         }
 
         function showTab(tab) {

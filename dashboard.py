@@ -3,14 +3,17 @@ CI/CD Pipeline Analytics - Light Theme Dashboard
 Real-time data from Supabase
 """
 import dash
-from dash import dcc, html, Input, Output, callback
+from dash import dcc, html, Input, Output, callback, ctx
 import plotly.graph_objects as go
 import pandas as pd
 from datetime import datetime
 from config import supabase
+from auth import decode_token
+from urllib.parse import parse_qs
 
 # Will be set when integrated with Flask
 dash_app = None
+current_user_id = None
 
 # Light Theme
 THEME = {
@@ -20,8 +23,12 @@ THEME = {
     'text': '#1e293b', 'text_dim': '#64748b', 'border': '#e2e8f0',
 }
 
-def fetch_jobs():
-    result = supabase.table('jobs').select('*').order('created_at', desc=True).execute()
+def fetch_jobs(user_id=None):
+    # Fetch jobs for specific user if user_id provided
+    query = supabase.table('jobs').select('*').order('created_at', desc=True)
+    if user_id:
+        query = query.eq('user_id', user_id)
+    result = query.execute()
     if result.data:
         df = pd.DataFrame(result.data)
         df['created_at'] = pd.to_datetime(df['created_at'])
@@ -34,8 +41,17 @@ def fetch_jobs():
         return df
     return pd.DataFrame()
 
-def fetch_logs():
-    result = supabase.table('job_logs').select('*').order('created_at', desc=True).limit(50).execute()
+def fetch_logs(user_id=None):
+    if user_id:
+        # Get logs only for this user's jobs
+        jobs_result = supabase.table('jobs').select('id').eq('user_id', user_id).execute()
+        if jobs_result.data:
+            job_ids = [job['id'] for job in jobs_result.data]
+            result = supabase.table('job_logs').select('*').in_('job_id', job_ids).order('created_at', desc=True).limit(50).execute()
+        else:
+            result = type('obj', (object,), {'data': []})()
+    else:
+        result = supabase.table('job_logs').select('*').order('created_at', desc=True).limit(50).execute()
     return pd.DataFrame(result.data) if result.data else pd.DataFrame()
 
 def fetch_users():
@@ -164,11 +180,26 @@ def register_callbacks(app):
          Output('heatmap-chart', 'figure'), Output('duration-chart', 'figure'), Output('hourly-chart', 'figure'),
          Output('repo-chart', 'figure'), Output('trend-chart', 'figure'),
          Output('jobs-table', 'children'), Output('logs-feed', 'children')],
-        [Input('main-container', 'id')]
+        [Input('main-container', 'id')],
+        prevent_initial_call=False
     )
-    def update_all(n):
-        df = fetch_jobs()
-        logs = fetch_logs()
+    def update_all(container_id):
+        global current_user_id
+        
+        # Try to get user_id from URL query parameter (token)
+        user_id = None
+        try:
+            from flask import request
+            token = request.args.get('token')
+            if token:
+                payload = decode_token(token)
+                user_id = payload.get('user_id')
+                current_user_id = user_id
+        except:
+            user_id = current_user_id
+        
+        df = fetch_jobs(user_id)
+        logs = fetch_logs(user_id)
         users = fetch_users()
         
         def empty_fig(h=200):
