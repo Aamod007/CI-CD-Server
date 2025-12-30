@@ -3,107 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CI/CD Pipeline - Professional DevOps Platform</title>
+    <title>CI/CD Pipeline - DevOps Platform</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', -apple-system, sans-serif; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #e2e8f0; min-height: 100vh; }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: #f8fafc; color: #1e293b; min-height: 100vh; }
+        .hidden { display: none !important; }
         
         /* Auth Page */
-        .auth-container { min-height: 100vh; display: flex; }
-        .auth-left { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 60px; background: #0f172a; }
-        .auth-right { flex: 1; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); display: flex; align-items: center; justify-content: center; padding: 60px; }
-        .auth-right-content { text-align: center; color: white; }
-        .auth-right h2 { font-size: 32px; margin-bottom: 16px; }
-        .auth-right p { font-size: 16px; opacity: 0.9; max-width: 400px; }
+        .auth-container { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); }
+        .auth-card { background: white; border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.08); width: 100%; max-width: 420px; padding: 48px; }
         
-        .logo { display: flex; align-items: center; gap: 12px; margin-bottom: 48px; }
-        .logo-icon { width: 48px; height: 48px; background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
-        .logo-icon i { font-size: 24px; color: white; }
-        .logo-text { font-size: 24px; font-weight: 700; color: white; }
+        .logo { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 32px; }
+        .logo-icon { width: 48px; height: 48px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 14px; display: flex; align-items: center; justify-content: center; }
+        .logo-icon i { font-size: 22px; color: white; }
+        .logo-text { font-size: 22px; font-weight: 700; color: #1e293b; }
         
-        .auth-form { max-width: 400px; }
-        .auth-form h1 { font-size: 28px; color: white; margin-bottom: 8px; }
-        .auth-form p { color: #94a3b8; margin-bottom: 32px; }
+        .auth-header { text-align: center; margin-bottom: 32px; }
+        .auth-header h1 { font-size: 26px; color: #1e293b; margin-bottom: 8px; font-weight: 700; }
+        .auth-header p { color: #64748b; font-size: 15px; }
         
         .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; color: #94a3b8; font-size: 14px; margin-bottom: 8px; font-weight: 500; }
-        .form-group input { width: 100%; padding: 14px 16px; background: #1e293b; border: 1px solid #334155; border-radius: 10px; color: white; font-size: 15px; transition: all 0.2s; }
-        .form-group input:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.2); }
-        .form-group input::placeholder { color: #64748b; }
+        .form-group label { display: block; color: #475569; font-size: 14px; margin-bottom: 8px; font-weight: 500; }
+        .form-group input { width: 100%; padding: 14px 16px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; color: #1e293b; font-size: 15px; transition: all 0.2s; }
+        .form-group input:focus { outline: none; border-color: #3b82f6; background: white; box-shadow: 0 0 0 4px rgba(59,130,246,0.1); }
+        .form-group input::placeholder { color: #94a3b8; }
+        
+        .btn { padding: 14px 24px; border: none; border-radius: 12px; cursor: pointer; font-family: inherit; font-size: 15px; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-primary { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(59,130,246,0.35); }
+        .btn-secondary { background: #f1f5f9; color: #475569; border: 2px solid #e2e8f0; }
+        .btn-secondary:hover { background: #e2e8f0; border-color: #cbd5e1; }
+        .btn-github { background: #24292e; color: white; }
+        .btn-github:hover { background: #1a1e22; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+        .btn-full { width: 100%; }
+        .btn-sm { padding: 10px 16px; font-size: 13px; }
+        .btn-danger { background: #fee2e2; color: #dc2626; }
+        .btn-danger:hover { background: #fecaca; }
+        .btn-success { background: #dcfce7; color: #16a34a; }
 </style>
 </head>
 <body>
     <!-- Auth Section -->
     <div id="auth-section" class="auth-container">
-        <div class="auth-left">
+        <div class="auth-card">
             <div class="logo">
                 <div class="logo-icon"><i class="fas fa-rocket"></i></div>
-                <span class="logo-text">CI/CD Pipeline</span>
+                <span class="logo-text">Pipeline</span>
             </div>
-            <div class="auth-form">
+            <div class="auth-header">
                 <h1 id="auth-title">Welcome back</h1>
-                <p id="auth-subtitle">Sign in to your account to continue</p>
-                <div id="alert-auth"></div>
-                
-                <form id="login-form" onsubmit="handleLogin(event)">
-                    <div class="form-group">
-                        <label>Email address</label>
-                        <input type="email" id="login-email" required placeholder="you@example.com">
-                    </div>
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" id="login-password" required placeholder="••••••••">
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-full">Sign In</button>
-                </form>
-                
-                <form id="register-form" class="hidden" onsubmit="handleRegister(event)">
-                    <div class="form-group">
-                        <label>Email address</label>
-                        <input type="email" id="register-email" required placeholder="you@example.com">
-                    </div>
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" id="register-password" required placeholder="••••••••">
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-full">Create Account</button>
-                </form>
-                
-                <div class="divider"><span>or continue with</span></div>
-                
-                <button class="btn btn-github btn-full" onclick="loginWithGithub()">
-                    <i class="fab fa-github"></i> Continue with GitHub
-                </button>
-                
-                <p class="auth-switch">
-                    <span id="switch-text">Don't have an account?</span>
-                    <a href="#" onclick="toggleAuthMode(event)" id="switch-link">Sign up</a>
-                </p>
+                <p id="auth-subtitle">Sign in to continue to your dashboard</p>
             </div>
-        </div>
-        <div class="auth-right">
-            <div class="auth-right-content">
-                <i class="fas fa-code-branch" style="font-size: 80px; margin-bottom: 24px; opacity: 0.9;"></i>
-                <h2>Automate Your Workflow</h2>
-                <p>Build, test, and deploy your code automatically. Connect your GitHub repositories and run CI/CD pipelines with ease.</p>
-            </div>
+            <div id="alert-auth"></div>
+            
+            <button class="btn btn-github btn-full" onclick="loginWithGithub()" style="margin-bottom: 24px;">
+                <i class="fab fa-github"></i> Continue with GitHub
+            </button>
+            
+            <div class="divider"><span>or</span></div>
+            
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="login-email" required placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="login-password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Sign In</button>
+            </form>
+            
+            <form id="register-form" class="hidden" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="register-email" required placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="register-password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+            </form>
+            
+            <p class="auth-switch">
+                <span id="switch-text">Don't have an account?</span>
+                <a href="#" onclick="toggleAuthMode(event)" id="switch-link">Sign up</a>
+            </p>
         </div>
     </div>
 
-    <!-- Dashboard Section -->
+    <!-- Dashboard -->
     <div id="dashboard" class="hidden">
         <nav class="navbar">
             <div class="nav-left">
-                <div class="logo">
+                <div class="logo" style="margin-bottom: 0;">
                     <div class="logo-icon"><i class="fas fa-rocket"></i></div>
-                    <span class="logo-text">CI/CD Pipeline</span>
+                    <span class="logo-text">Pipeline</span>
                 </div>
             </div>
             <div class="nav-right">
-                <a href="#" onclick="openDashboard()" class="nav-link"><i class="fas fa-chart-bar"></i> Analytics</a>
-                <div class="user-menu">
+                <a href="#" onclick="openDashboard()" class="nav-link"><i class="fas fa-chart-line"></i> Analytics</a>
+                <div class="user-info">
+                    <div class="user-avatar"><i class="fas fa-user"></i></div>
                     <span id="user-email"></span>
                     <button class="btn btn-secondary btn-sm" onclick="logout()">Sign Out</button>
                 </div>
@@ -111,210 +115,184 @@
         </nav>
         
         <div class="main-content">
-            <!-- GitHub Connection Card -->
-            <div id="github-connect-card" class="card github-card">
-                <div class="github-card-content">
-                    <i class="fab fa-github github-icon"></i>
-                    <h3>Connect to GitHub</h3>
-                    <p>Link your GitHub account to access your repositories and run automated pipelines.</p>
-                    <button class="btn btn-github" onclick="connectGithub()">
-                        <i class="fab fa-github"></i> Connect GitHub Account
-                    </button>
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <div class="action-card" onclick="showNewPipelineModal()">
+                    <div class="action-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);"><i class="fas fa-plus"></i></div>
+                    <div class="action-text">
+                        <h4>New Pipeline</h4>
+                        <p>Run a new CI/CD job</p>
+                    </div>
+                </div>
+                <div class="action-card" onclick="openDashboard()">
+                    <div class="action-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);"><i class="fas fa-chart-bar"></i></div>
+                    <div class="action-text">
+                        <h4>Analytics</h4>
+                        <p>View pipeline metrics</p>
+                    </div>
+                </div>
+                <div class="action-card" onclick="loadJobs()">
+                    <div class="action-icon" style="background: linear-gradient(135deg, #10b981, #059669);"><i class="fas fa-sync"></i></div>
+                    <div class="action-text">
+                        <h4>Refresh</h4>
+                        <p>Update job status</p>
+                    </div>
                 </div>
             </div>
             
-            <!-- Repo Selection (shown after GitHub connect) -->
-            <div id="repo-section" class="hidden">
-                <div class="section-header">
-                    <h2><i class="fas fa-folder-open"></i> Your Repositories</h2>
-                    <button class="btn btn-secondary btn-sm" onclick="refreshRepos()"><i class="fas fa-sync"></i> Refresh</button>
-                </div>
-                <div id="repos-grid" class="repos-grid"></div>
-            </div>
-            
-            <!-- Pipeline Config Modal -->
-            <div id="pipeline-modal" class="modal hidden">
-                <div class="modal-content modal-lg">
-                    <div class="modal-header">
-                        <h3><i class="fas fa-cog"></i> Configure Pipeline</h3>
-                        <button class="btn-close" onclick="closePipelineModal()">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="config-section">
-                            <label>Repository</label>
-                            <div id="selected-repo" class="selected-repo"></div>
-                        </div>
-                        <div class="config-section">
-                            <label>Branch</label>
-                            <select id="branch-select" class="form-select"></select>
-                        </div>
-                        <div class="config-section">
-                            <label>Entry File (optional)</label>
-                            <div id="file-browser" class="file-browser"></div>
-                        </div>
-                        <div class="config-section">
-                            <label>Build Commands</label>
-                            <textarea id="build-commands" class="form-textarea" placeholder="pip install -r requirements.txt&#10;python main.py"></textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" onclick="closePipelineModal()">Cancel</button>
-                        <button class="btn btn-primary" onclick="runPipeline()"><i class="fas fa-play"></i> Run Pipeline</button>
-                    </div>
-                </div>
-            </div>
-
             <!-- Jobs Section -->
-            <div class="section-header">
-                <h2><i class="fas fa-tasks"></i> Recent Pipelines</h2>
-                <button class="btn btn-secondary btn-sm" onclick="loadJobs()"><i class="fas fa-sync"></i> Refresh</button>
+            <div class="section-card">
+                <div class="section-header">
+                    <h2><i class="fas fa-layer-group"></i> Recent Pipelines</h2>
+                    <span class="badge" id="jobs-count">0 jobs</span>
+                </div>
+                <div id="jobs-container"></div>
             </div>
-            <div id="jobs-container" class="jobs-list"></div>
+        </div>
+    </div>
+
+    <!-- New Pipeline Modal -->
+    <div id="pipeline-modal" class="modal hidden">
+        <div class="modal-overlay" onclick="closePipelineModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-rocket"></i> New Pipeline</h3>
+                <button class="btn-close" onclick="closePipelineModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Repository URL</label>
+                    <input type="text" id="repo-url" placeholder="https://github.com/username/repo">
+                </div>
+                <div class="form-group">
+                    <label>Branch</label>
+                    <input type="text" id="branch" value="main" placeholder="main">
+                </div>
+                <div class="form-group">
+                    <label>Build Commands (optional)</label>
+                    <textarea id="build-commands" class="form-textarea" placeholder="pip install -r requirements.txt&#10;python main.py"></textarea>
+                    <small class="form-hint">Leave empty to auto-detect project type</small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closePipelineModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="runPipeline()"><i class="fas fa-play"></i> Run Pipeline</button>
+            </div>
         </div>
     </div>
     
     <!-- Logs Modal -->
     <div id="logs-modal" class="modal hidden">
+        <div class="modal-overlay" onclick="closeLogsModal()"></div>
         <div class="modal-content modal-lg">
             <div class="modal-header">
                 <h3><i class="fas fa-terminal"></i> Pipeline Logs</h3>
-                <button class="btn-close" onclick="closeLogsModal()">&times;</button>
+                <button class="btn-close" onclick="closeLogsModal()"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body logs-body" id="logs-container"></div>
         </div>
     </div>
 
     <style>
-        .hidden { display: none !important; }
-        
-        .btn { padding: 12px 24px; border: none; border-radius: 10px; cursor: pointer; font-family: inherit; font-size: 14px; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
-        .btn-primary { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(99,102,241,0.4); }
-        .btn-secondary { background: #334155; color: #e2e8f0; }
-        .btn-secondary:hover { background: #475569; }
-        .btn-github { background: #24292e; color: white; }
-        .btn-github:hover { background: #2f363d; }
-        .btn-full { width: 100%; justify-content: center; }
-        .btn-sm { padding: 8px 16px; font-size: 13px; }
-        .btn-danger { background: #ef4444; color: white; }
-        .btn-close { background: none; border: none; color: #94a3b8; font-size: 24px; cursor: pointer; }
-        
-        .divider { display: flex; align-items: center; margin: 24px 0; color: #64748b; font-size: 13px; }
-        .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #334155; }
+        .divider { display: flex; align-items: center; margin: 24px 0; color: #94a3b8; font-size: 13px; }
+        .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #e2e8f0; }
         .divider span { padding: 0 16px; }
         
-        .auth-switch { text-align: center; margin-top: 24px; color: #94a3b8; font-size: 14px; }
-        .auth-switch a { color: #6366f1; text-decoration: none; font-weight: 500; }
+        .auth-switch { text-align: center; margin-top: 24px; color: #64748b; font-size: 14px; }
+        .auth-switch a { color: #3b82f6; text-decoration: none; font-weight: 600; margin-left: 4px; }
+        .auth-switch a:hover { text-decoration: underline; }
         
-        .alert { padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; }
-        .alert-error { background: rgba(239,68,68,0.1); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); }
-        .alert-success { background: rgba(34,197,94,0.1); color: #22c55e; border: 1px solid rgba(34,197,94,0.2); }
+        .alert { padding: 14px 16px; border-radius: 12px; margin-bottom: 20px; font-size: 14px; }
+        .alert-error { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+        .alert-success { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
         
         /* Navbar */
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; background: rgba(15,23,42,0.95); border-bottom: 1px solid #334155; backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; }
-        .nav-left .logo { margin-bottom: 0; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; background: white; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 100; }
         .nav-right { display: flex; align-items: center; gap: 24px; }
-        .nav-link { color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
-        .nav-link:hover { color: #6366f1; }
-        .user-menu { display: flex; align-items: center; gap: 16px; }
-        .user-menu span { color: #94a3b8; font-size: 14px; }
+        .nav-link { color: #64748b; text-decoration: none; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 8px; transition: all 0.2s; }
+        .nav-link:hover { color: #3b82f6; background: #f0f9ff; }
+        .user-info { display: flex; align-items: center; gap: 12px; }
+        .user-avatar { width: 36px; height: 36px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; }
+        .user-info span { color: #64748b; font-size: 14px; }
         
         /* Main Content */
-        .main-content { max-width: 1200px; margin: 0 auto; padding: 32px; }
+        .main-content { max-width: 1000px; margin: 0 auto; padding: 32px; }
         
-        /* Cards */
-        .card { background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 24px; margin-bottom: 24px; }
-        .github-card { text-align: center; padding: 48px; }
-        .github-card-content { max-width: 400px; margin: 0 auto; }
-        .github-icon { font-size: 64px; color: #6366f1; margin-bottom: 24px; }
-        .github-card h3 { font-size: 24px; margin-bottom: 12px; color: white; }
-        .github-card p { color: #94a3b8; margin-bottom: 24px; line-height: 1.6; }
+        /* Quick Actions */
+        .quick-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+        .action-card { background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: all 0.2s; }
+        .action-card:hover { border-color: #3b82f6; box-shadow: 0 8px 24px rgba(59,130,246,0.12); transform: translateY(-2px); }
+        .action-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; }
+        .action-text h4 { color: #1e293b; font-size: 15px; margin-bottom: 4px; }
+        .action-text p { color: #94a3b8; font-size: 13px; }
         
-        /* Section Header */
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .section-header h2 { font-size: 18px; color: white; display: flex; align-items: center; gap: 10px; }
-        .section-header h2 i { color: #6366f1; }
-        
-        /* Repos Grid */
-        .repos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-bottom: 32px; }
-        .repo-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.2s; }
-        .repo-card:hover { border-color: #6366f1; transform: translateY(-2px); }
-        .repo-card h4 { color: white; font-size: 16px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-        .repo-card h4 i { color: #6366f1; }
-        .repo-card p { color: #94a3b8; font-size: 13px; margin-bottom: 12px; }
-        .repo-meta { display: flex; gap: 16px; font-size: 12px; color: #64748b; }
-        .repo-meta span { display: flex; align-items: center; gap: 4px; }
+        /* Section Card */
+        .section-card { background: white; border: 1px solid #e2e8f0; border-radius: 20px; overflow: hidden; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid #f1f5f9; }
+        .section-header h2 { font-size: 16px; color: #1e293b; display: flex; align-items: center; gap: 10px; font-weight: 600; }
+        .section-header h2 i { color: #3b82f6; }
+        .badge { background: #f1f5f9; color: #64748b; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; }
         
         /* Jobs List */
-        .jobs-list { background: #1e293b; border: 1px solid #334155; border-radius: 16px; overflow: hidden; }
-        .job-item { display: flex; align-items: center; padding: 20px 24px; border-bottom: 1px solid #334155; transition: background 0.2s; }
+        .job-item { display: flex; align-items: center; padding: 20px 24px; border-bottom: 1px solid #f1f5f9; transition: background 0.2s; }
         .job-item:last-child { border-bottom: none; }
-        .job-item:hover { background: rgba(99,102,241,0.05); }
-        .status-indicator { width: 12px; height: 12px; border-radius: 50%; margin-right: 16px; }
-        .status-pending { background: #64748b; }
+        .job-item:hover { background: #fafbfc; }
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; margin-right: 16px; flex-shrink: 0; }
+        .status-pending { background: #94a3b8; }
         .status-running { background: #3b82f6; animation: pulse 1.5s infinite; }
         .status-success { background: #22c55e; }
         .status-failed { background: #ef4444; }
         .status-cancelled { background: #f59e0b; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        .job-info { flex: 1; }
-        .job-name { color: white; font-weight: 600; font-size: 15px; margin-bottom: 4px; }
-        .job-meta { color: #64748b; font-size: 13px; }
-        .job-status { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; margin-right: 16px; }
-        .job-status.pending { background: rgba(100,116,139,0.2); color: #94a3b8; }
-        .job-status.running { background: rgba(59,130,246,0.2); color: #60a5fa; }
-        .job-status.success { background: rgba(34,197,94,0.2); color: #4ade80; }
-        .job-status.failed { background: rgba(239,68,68,0.2); color: #f87171; }
-        .job-status.cancelled { background: rgba(245,158,11,0.2); color: #fbbf24; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        .job-info { flex: 1; min-width: 0; }
+        .job-name { color: #1e293b; font-weight: 600; font-size: 14px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .job-meta { color: #94a3b8; font-size: 13px; }
+        .job-status { padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; margin-right: 16px; text-transform: capitalize; }
+        .job-status.pending { background: #f1f5f9; color: #64748b; }
+        .job-status.running { background: #dbeafe; color: #2563eb; }
+        .job-status.success { background: #dcfce7; color: #16a34a; }
+        .job-status.failed { background: #fee2e2; color: #dc2626; }
+        .job-status.cancelled { background: #fef3c7; color: #d97706; }
         .job-actions { display: flex; gap: 8px; }
         
+        /* Empty State */
+        .empty-state { text-align: center; padding: 60px 24px; }
+        .empty-state i { font-size: 48px; color: #cbd5e1; margin-bottom: 16px; }
+        .empty-state h3 { color: #64748b; font-size: 16px; margin-bottom: 8px; }
+        .empty-state p { color: #94a3b8; font-size: 14px; }
+        
         /* Modal */
-        .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-        .modal-content { background: #1e293b; border: 1px solid #334155; border-radius: 16px; width: 90%; max-width: 600px; max-height: 80vh; display: flex; flex-direction: column; }
-        .modal-lg { max-width: 800px; }
-        .modal-header { padding: 20px 24px; border-bottom: 1px solid #334155; display: flex; justify-content: space-between; align-items: center; }
-        .modal-header h3 { color: white; font-size: 18px; display: flex; align-items: center; gap: 10px; }
-        .modal-header h3 i { color: #6366f1; }
+        .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .modal-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15,23,42,0.5); backdrop-filter: blur(4px); }
+        .modal-content { position: relative; background: white; border-radius: 20px; width: 90%; max-width: 500px; max-height: 85vh; display: flex; flex-direction: column; box-shadow: 0 25px 60px rgba(0,0,0,0.2); }
+        .modal-lg { max-width: 700px; }
+        .modal-header { padding: 20px 24px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { color: #1e293b; font-size: 18px; display: flex; align-items: center; gap: 10px; font-weight: 600; }
+        .modal-header h3 i { color: #3b82f6; }
         .modal-body { padding: 24px; overflow-y: auto; flex: 1; }
-        .modal-footer { padding: 16px 24px; border-top: 1px solid #334155; display: flex; justify-content: flex-end; gap: 12px; }
+        .modal-footer { padding: 16px 24px; border-top: 1px solid #f1f5f9; display: flex; justify-content: flex-end; gap: 12px; }
+        .btn-close { background: none; border: none; color: #94a3b8; font-size: 18px; cursor: pointer; padding: 8px; border-radius: 8px; transition: all 0.2s; }
+        .btn-close:hover { background: #f1f5f9; color: #64748b; }
         
         /* Form Elements */
-        .form-select, .form-textarea { width: 100%; padding: 12px 16px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: white; font-family: inherit; font-size: 14px; }
-        .form-select:focus, .form-textarea:focus { outline: none; border-color: #6366f1; }
-        .form-textarea { min-height: 120px; resize: vertical; }
-        .config-section { margin-bottom: 20px; }
-        .config-section label { display: block; color: #94a3b8; font-size: 14px; margin-bottom: 8px; font-weight: 500; }
-        .selected-repo { background: #0f172a; padding: 12px 16px; border-radius: 8px; color: white; display: flex; align-items: center; gap: 10px; }
-        
-        /* File Browser */
-        .file-browser { background: #0f172a; border: 1px solid #334155; border-radius: 8px; max-height: 200px; overflow-y: auto; }
-        .file-item { padding: 10px 16px; display: flex; align-items: center; gap: 10px; cursor: pointer; border-bottom: 1px solid #1e293b; color: #94a3b8; font-size: 13px; }
-        .file-item:hover { background: rgba(99,102,241,0.1); color: white; }
-        .file-item.selected { background: rgba(99,102,241,0.2); color: #6366f1; }
-        .file-item i { width: 16px; }
-        .file-item.folder i { color: #fbbf24; }
-        .file-item.file i { color: #6366f1; }
+        .form-textarea { width: 100%; padding: 14px 16px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; color: #1e293b; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px; min-height: 100px; resize: vertical; }
+        .form-textarea:focus { outline: none; border-color: #3b82f6; background: white; }
+        .form-hint { color: #94a3b8; font-size: 12px; margin-top: 6px; display: block; }
         
         /* Logs */
-        .logs-body { background: #0f172a; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px; padding: 16px; max-height: 400px; overflow-y: auto; }
-        .log-line { padding: 4px 0; color: #94a3b8; }
+        .logs-body { background: #0f172a; border-radius: 12px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px; padding: 20px; max-height: 400px; overflow-y: auto; }
+        .log-line { padding: 4px 0; color: #94a3b8; line-height: 1.6; }
         .log-line.info { color: #94a3b8; }
         .log-line.warn { color: #fbbf24; }
         .log-line.error { color: #f87171; }
         
-        /* Empty State */
-        .empty-state { text-align: center; padding: 48px; color: #64748b; }
-        .empty-state i { font-size: 48px; margin-bottom: 16px; opacity: 0.5; }
-        .empty-state p { font-size: 15px; }
-        
         /* Responsive */
         @media (max-width: 768px) {
-            .auth-container { flex-direction: column; }
-            .auth-right { display: none; }
-            .auth-left { padding: 32px; }
-            .navbar { padding: 12px 16px; flex-wrap: wrap; gap: 12px; }
+            .navbar { padding: 12px 16px; }
             .main-content { padding: 16px; }
-            .repos-grid { grid-template-columns: 1fr; }
+            .quick-actions { grid-template-columns: 1fr; }
+            .user-info span { display: none; }
+            .job-actions { flex-wrap: wrap; }
         }
     </style>
 
@@ -323,20 +301,16 @@
         let token = localStorage.getItem('token');
         let githubToken = localStorage.getItem('github_token');
         let supabaseToken = localStorage.getItem('supabase_token');
-        let selectedRepo = null;
         let logsInterval = null;
         let isLoginMode = true;
 
-        // Check if returning from GitHub OAuth
         if (supabaseToken && !token) {
-            // User logged in via GitHub, create session
             handleGithubLogin(supabaseToken);
         } else if (token) {
             checkAuth();
         }
 
         async function handleGithubLogin(ghToken) {
-            // For GitHub OAuth users, we use the Supabase token directly
             token = ghToken;
             localStorage.setItem('token', token);
             githubToken = ghToken;
@@ -361,7 +335,7 @@
             document.getElementById('login-form').classList.toggle('hidden', !isLoginMode);
             document.getElementById('register-form').classList.toggle('hidden', isLoginMode);
             document.getElementById('auth-title').textContent = isLoginMode ? 'Welcome back' : 'Create account';
-            document.getElementById('auth-subtitle').textContent = isLoginMode ? 'Sign in to your account to continue' : 'Get started with your free account';
+            document.getElementById('auth-subtitle').textContent = isLoginMode ? 'Sign in to continue to your dashboard' : 'Get started with your free account';
             document.getElementById('switch-text').textContent = isLoginMode ? "Don't have an account?" : 'Already have an account?';
             document.getElementById('switch-link').textContent = isLoginMode ? 'Sign up' : 'Sign in';
         }
@@ -392,144 +366,65 @@
                 document.getElementById('user-email').textContent = data.email;
                 document.getElementById('auth-section').classList.add('hidden');
                 document.getElementById('dashboard').classList.remove('hidden');
-                checkGithubConnection();
                 loadJobs();
             } else logout();
         }
 
         function logout() {
-            token = null; 
-            githubToken = null;
+            token = null; githubToken = null;
             localStorage.removeItem('token');
             localStorage.removeItem('github_token');
+            localStorage.removeItem('supabase_token');
             document.getElementById('auth-section').classList.remove('hidden');
             document.getElementById('dashboard').classList.add('hidden');
         }
 
         function loginWithGithub() {
-            // Use Supabase GitHub OAuth
             const supabaseUrl = 'https://qbphsmgryrezirqrcwdz.supabase.co';
             const redirectTo = encodeURIComponent(window.location.origin + '/auth/callback');
-            window.location.href = `${supabaseUrl}/auth/v1/authorize?provider=github&redirect_to=${redirectTo}`;
+            const scopes = 'repo,user:email';
+            window.location.href = `${supabaseUrl}/auth/v1/authorize?provider=github&redirect_to=${redirectTo}&scopes=${scopes}`;
         }
 
-        function connectGithub() {
-            loginWithGithub();
-        }
-
-        function checkGithubConnection() {
-            // For demo, show repos section. In production, check if GitHub is connected
-            if (githubToken) {
-                document.getElementById('github-connect-card').classList.add('hidden');
-                document.getElementById('repo-section').classList.remove('hidden');
-                loadRepos();
-            }
-        }
-
-        async function loadRepos() {
-            // Demo repos - in production, fetch from GitHub API
-            const repos = [
-                { name: 'my-project', description: 'A sample project', language: 'Python', stars: 12, updated: '2 days ago' },
-                { name: 'web-app', description: 'React web application', language: 'JavaScript', stars: 45, updated: '1 week ago' },
-                { name: 'api-server', description: 'REST API backend', language: 'Python', stars: 8, updated: '3 days ago' },
-            ];
-            
-            const grid = document.getElementById('repos-grid');
-            grid.innerHTML = repos.map(repo => `
-                <div class="repo-card" onclick="selectRepo('${repo.name}')">
-                    <h4><i class="fas fa-book"></i> ${repo.name}</h4>
-                    <p>${repo.description || 'No description'}</p>
-                    <div class="repo-meta">
-                        <span><i class="fas fa-circle" style="color: ${getLanguageColor(repo.language)}; font-size: 8px;"></i> ${repo.language}</span>
-                        <span><i class="fas fa-star"></i> ${repo.stars}</span>
-                        <span><i class="fas fa-clock"></i> ${repo.updated}</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function getLanguageColor(lang) {
-            const colors = { Python: '#3572A5', JavaScript: '#f1e05a', TypeScript: '#2b7489', Java: '#b07219', Go: '#00ADD8', Rust: '#dea584' };
-            return colors[lang] || '#6366f1';
-        }
-
-        function selectRepo(repoName) {
-            selectedRepo = repoName;
-            document.getElementById('selected-repo').innerHTML = `<i class="fas fa-book" style="color: #6366f1;"></i> ${repoName}`;
-            document.getElementById('branch-select').innerHTML = '<option value="main">main</option><option value="master">master</option><option value="develop">develop</option>';
-            loadFileBrowser();
+        function showNewPipelineModal() {
             document.getElementById('pipeline-modal').classList.remove('hidden');
-        }
-
-        function loadFileBrowser() {
-            // Demo file structure - in production, fetch from GitHub API
-            const files = [
-                { type: 'folder', name: 'src' },
-                { type: 'folder', name: 'tests' },
-                { type: 'file', name: 'main.py' },
-                { type: 'file', name: 'requirements.txt' },
-                { type: 'file', name: 'README.md' },
-                { type: 'file', name: 'setup.py' },
-            ];
-            
-            const browser = document.getElementById('file-browser');
-            browser.innerHTML = files.map(f => `
-                <div class="file-item ${f.type}" onclick="selectFile(this, '${f.name}')">
-                    <i class="fas fa-${f.type === 'folder' ? 'folder' : 'file-code'}"></i>
-                    ${f.name}
-                </div>
-            `).join('');
-        }
-
-        function selectFile(el, filename) {
-            document.querySelectorAll('.file-item').forEach(f => f.classList.remove('selected'));
-            el.classList.add('selected');
-            
-            // Auto-suggest commands based on file
-            const commands = document.getElementById('build-commands');
-            if (filename.endsWith('.py')) {
-                commands.value = `pip install -r requirements.txt\npython ${filename}`;
-            } else if (filename === 'package.json') {
-                commands.value = 'npm install\nnpm test';
-            }
         }
 
         function closePipelineModal() {
             document.getElementById('pipeline-modal').classList.add('hidden');
-            selectedRepo = null;
         }
 
         async function runPipeline() {
-            if (!selectedRepo) return;
+            const repoUrl = document.getElementById('repo-url').value.trim();
+            const branch = document.getElementById('branch').value.trim() || 'main';
             
-            const branch = document.getElementById('branch-select').value;
-            const commands = document.getElementById('build-commands').value.split('\n').filter(c => c.trim());
-            
-            // For demo, use manual repo URL input
-            const repoUrl = prompt('Enter full GitHub repo URL:', `https://github.com/username/${selectedRepo}`);
-            if (!repoUrl) return;
+            if (!repoUrl) { alert('Please enter a repository URL'); return; }
             
             const data = await api('/jobs', {
                 method: 'POST',
-                body: JSON.stringify({ repo_url: repoUrl, branch, commands })
+                body: JSON.stringify({ repo_url: repoUrl, branch })
             });
             
             if (data.id) {
                 closePipelineModal();
+                document.getElementById('repo-url').value = '';
                 loadJobs();
-                showAlert('alert-auth', 'Pipeline started!', 'success');
+            } else {
+                alert(data.error || 'Failed to create pipeline');
             }
         }
 
         async function loadJobs() {
             const jobs = await api('/jobs');
             const container = document.getElementById('jobs-container');
+            document.getElementById('jobs-count').textContent = `${jobs?.length || 0} jobs`;
             
             if (!jobs || !jobs.length) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <i class="fas fa-inbox"></i>
-                        <p>No pipelines yet. Connect GitHub and run your first pipeline!</p>
+                        <h3>No pipelines yet</h3>
+                        <p>Click "New Pipeline" to run your first CI/CD job</p>
                     </div>
                 `;
                 return;
@@ -537,20 +432,30 @@
             
             container.innerHTML = jobs.map(job => `
                 <div class="job-item">
-                    <div class="status-indicator status-${job.status}"></div>
+                    <div class="status-dot status-${job.status}"></div>
                     <div class="job-info">
-                        <div class="job-name">${job.repo_url ? job.repo_url.split('/').pop() : 'Unknown'}</div>
-                        <div class="job-meta">${job.branch || 'main'} • ${new Date(job.created_at).toLocaleString()}</div>
+                        <div class="job-name">${job.repo_url ? job.repo_url.split('/').pop().replace('.git', '') : 'Unknown'}</div>
+                        <div class="job-meta">${job.branch || 'main'} • ${formatTime(job.created_at)}</div>
                     </div>
                     <span class="job-status ${job.status}">${job.status}</span>
                     <div class="job-actions">
-                        <button class="btn btn-secondary btn-sm" onclick="viewLogs('${job.id}')"><i class="fas fa-terminal"></i> Logs</button>
+                        <button class="btn btn-secondary btn-sm" onclick="viewLogs('${job.id}')"><i class="fas fa-terminal"></i></button>
                         ${job.status === 'running' ? `<button class="btn btn-danger btn-sm" onclick="cancelJob('${job.id}')"><i class="fas fa-stop"></i></button>` : ''}
-                        ${['failed','cancelled'].includes(job.status) ? `<button class="btn btn-primary btn-sm" onclick="retryJob('${job.id}')"><i class="fas fa-redo"></i></button>` : ''}
+                        ${['failed','cancelled'].includes(job.status) ? `<button class="btn btn-success btn-sm" onclick="retryJob('${job.id}')"><i class="fas fa-redo"></i></button>` : ''}
                         <button class="btn btn-secondary btn-sm" onclick="deleteJob('${job.id}')"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
             `).join('');
+        }
+
+        function formatTime(dateStr) {
+            const date = new Date(dateStr);
+            const now = new Date();
+            const diff = (now - date) / 1000;
+            if (diff < 60) return 'Just now';
+            if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
+            if (diff < 86400) return `${Math.floor(diff/3600)}h ago`;
+            return date.toLocaleDateString();
         }
 
         async function viewLogs(jobId) {
@@ -579,12 +484,8 @@
         async function retryJob(id) { await api(`/jobs/${id}/retry`, { method: 'POST' }); loadJobs(); }
         async function deleteJob(id) { if (confirm('Delete this pipeline?')) { await api(`/jobs/${id}`, { method: 'DELETE' }); loadJobs(); } }
         
-        function refreshRepos() { loadRepos(); }
-        
         function openDashboard() {
-            if (token) {
-                window.open(`/dashboard/?token=${encodeURIComponent(token)}`, '_blank');
-            }
+            if (token) window.open(`/dashboard/?token=${encodeURIComponent(token)}`, '_blank');
         }
     </script>
 </body>
