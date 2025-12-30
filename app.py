@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 from flask_cors import CORS
 from config import PORT
 from routes.auth_routes import auth_bp
@@ -18,6 +18,12 @@ app.register_blueprint(jobs_bp)
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/auth/callback')
+def auth_callback():
+    """Handle Supabase OAuth callback"""
+    # Supabase returns tokens in URL hash, handled by frontend
+    return render_template('callback.html')
 
 @app.route('/health', methods=['GET'])
 def health():

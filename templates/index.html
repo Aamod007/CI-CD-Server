@@ -322,11 +322,26 @@
         const API = '/api';
         let token = localStorage.getItem('token');
         let githubToken = localStorage.getItem('github_token');
+        let supabaseToken = localStorage.getItem('supabase_token');
         let selectedRepo = null;
         let logsInterval = null;
         let isLoginMode = true;
 
-        if (token) checkAuth();
+        // Check if returning from GitHub OAuth
+        if (supabaseToken && !token) {
+            // User logged in via GitHub, create session
+            handleGithubLogin(supabaseToken);
+        } else if (token) {
+            checkAuth();
+        }
+
+        async function handleGithubLogin(ghToken) {
+            // For GitHub OAuth users, we use the Supabase token directly
+            token = ghToken;
+            localStorage.setItem('token', token);
+            githubToken = ghToken;
+            checkAuth();
+        }
 
         async function api(endpoint, options = {}) {
             const headers = { 'Content-Type': 'application/json' };
@@ -392,10 +407,10 @@
         }
 
         function loginWithGithub() {
-            const clientId = 'YOUR_GITHUB_CLIENT_ID'; // Replace with your GitHub OAuth App Client ID
-            const redirectUri = encodeURIComponent(window.location.origin + '/api/auth/github/callback');
-            const scope = 'repo,user:email';
-            window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}`;
+            // Use Supabase GitHub OAuth
+            const supabaseUrl = 'https://qbphsmgryrezirqrcwdz.supabase.co';
+            const redirectTo = encodeURIComponent(window.location.origin + '/auth/callback');
+            window.location.href = `${supabaseUrl}/auth/v1/authorize?provider=github&redirect_to=${redirectTo}`;
         }
 
         function connectGithub() {

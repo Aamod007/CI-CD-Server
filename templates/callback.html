@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Authenticating...</title>
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        .loader { text-align: center; }
+        .spinner { width: 48px; height: 48px; border: 4px solid #334155; border-top-color: #6366f1; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="loader">
+        <div class="spinner"></div>
+        <p>Authenticating with GitHub...</p>
+    </div>
+    <script>
+        // Get tokens from URL hash (Supabase returns them there)
+        const hash = window.location.hash.substring(1);
+        const params = new URLSearchParams(hash);
+        const accessToken = params.get('access_token');
+        const refreshToken = params.get('refresh_token');
+        
+        if (accessToken) {
+            // Store tokens and redirect
+            localStorage.setItem('supabase_token', accessToken);
+            localStorage.setItem('github_token', accessToken);
+            if (refreshToken) localStorage.setItem('refresh_token', refreshToken);
+            window.location.href = '/';
+        } else {
+            // Check for error
+            const error = params.get('error_description') || 'Authentication failed';
+            alert(error);
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>
